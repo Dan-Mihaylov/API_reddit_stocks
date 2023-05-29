@@ -1,6 +1,7 @@
 from tkinter import *
 from collections import deque
 import webbrowser
+from clear_screen import remove_items
 
 
 class Display:
@@ -35,8 +36,7 @@ class Display:
 
     def display_result(self):
 
-        for widget in self.frame.winfo_children():
-            widget.destroy()
+        remove_items(self.frame)    # Clear everything that is in the frame, so you can build all over
 
         curr_ticker = self.curr_result["ticker"]
         curr_sentiment = self.curr_result["sentiment"]
@@ -117,7 +117,6 @@ class Display:
             command=self.go_to_webpage,
         )
 
-        company_info_btn.pack()
 
     def go_to_webpage(self):
         ticker = self.curr_result["ticker"]

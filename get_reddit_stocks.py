@@ -6,10 +6,16 @@ class GetInfo:
     def __init__(self, path: str):
         self.path = path
         self.information = []
+        self.response = requests.get(self.path)
 
-    def retrieve_info(self):
-        response = requests.get(self.path)
-        self.information = response.json()
+    def retrieve_info_as_json(self):
+        self.information = self.response.json()
+
+    def info_as_text(self):
+        return self.response.text
+
+    def get_status_code(self):
+        return self.response.status_code
 
     def get_info(self):
         return self.information

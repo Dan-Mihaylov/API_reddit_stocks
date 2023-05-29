@@ -1,7 +1,9 @@
+import error_page
 from get_reddit_stocks import GetInfo
 from tkinter import *
 from click_and_drag import Drag
 from diplay_results import Display
+from clear_screen import remove_items
 
 
 
@@ -14,14 +16,7 @@ windows_buttons_frame = LabelFrame(
     borderwidth= 0,
 )
 
-windows_buttons_frame.columnconfigure(0, weight=3)
-windows_buttons_frame.columnconfigure(1, weight=3)
-windows_buttons_frame.columnconfigure(2, weight=3)
-
 windows_buttons_frame.pack(fill="x")
-
-title_label = Label(windows_buttons_frame, text="Trending Tickers API", anchor="w")
-title_label.grid(row=0, column=0, sticky="w")
 
 
 exit_button = Button(
@@ -35,27 +30,39 @@ exit_button = Button(
     height=2,
 )
 
-exit_button.grid(row=0, column=2, sticky="e")
+exit_button.pack(anchor="e", pady=5, padx=10)
 
 
-app_frame = LabelFrame(root, borderwidth=0)
+app_frame = LabelFrame(root)
 app_frame.pack(expand=True, fill="both")
-
-# Connect to the API and store the info in a JSON dict.
-
-reddit_stocks = GetInfo("https://tradestie.com/api/v1/apps/reddit")
-reddit_stocks.retrieve_info()
-print(reddit_stocks.get_info())
 
 # Create a dragging option when click and drag on the top frame
 
 set_drag = Drag(root, windows_buttons_frame)
 
-# Display the result into the app_frame
+# Connect to the API and store the info in a JSON dict.
 
-displayer = Display(app_frame, reddit_stocks.information)
-displayer.get_next_result()
+reddit_stocks = GetInfo("https://tradestie.com/api/v1/apps/reddit")
 
+
+def start_button():
+    remove_items(app_frame)
+
+    try:
+        reddit_stocks.retrieve_info_as_json()
+        print(reddit_stocks.get_info())
+
+        # Display the result into the app_frame
+
+        displayer = Display(app_frame, reddit_stocks.information)
+        displayer.get_next_result()
+    except Exception:
+        error_label = error_page.show_error(root, reddit_stocks.info_as_text())
+        error_label.pack()
+
+
+start_button = Button(app_frame, text="Start", command=start_button)
+start_button.pack()
 
 root.mainloop()
 
