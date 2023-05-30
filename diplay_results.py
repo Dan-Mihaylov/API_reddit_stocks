@@ -2,6 +2,7 @@ from tkinter import *
 from collections import deque
 import webbrowser
 from clear_screen import remove_items
+from get_stock_description import get_company_image
 
 
 class Display:
@@ -42,11 +43,19 @@ class Display:
         curr_sentiment = self.curr_result["sentiment"]
         curr_no_of_comments = self.curr_result["no_of_comments"]
 
+        company_img = get_company_image(curr_ticker)   # Pass the ticker, and get the company logo with request
+
         header_label = Label(
             self.frame,
             text="WSB Daily Most Popular Tickers",
             font="Helvetica, 18",
             fg="black"
+        )
+
+        company_image = Label(
+            self.frame,
+            image=company_img,
+            bg="black"
         )
 
         ticker_label = Label(
@@ -71,6 +80,7 @@ class Display:
         )
 
         header_label.pack(pady=10)
+        company_image.pack(pady=10)
         ticker_label.pack(pady=10)
         sentiment_label.pack(pady=10)
         comments.pack(pady=10)
@@ -116,6 +126,8 @@ class Display:
             text="Check Company",
             command=self.go_to_webpage,
         )
+
+        company_info_btn.pack()
 
 
     def go_to_webpage(self):

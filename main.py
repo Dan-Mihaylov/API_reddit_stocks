@@ -11,11 +11,12 @@ root = Tk()
 root.geometry("400x600+200+200")
 root.overrideredirect(True)
 
+# a frame with the X exit button
+
 windows_buttons_frame = LabelFrame(
     root,
     borderwidth= 0,
 )
-
 windows_buttons_frame.pack(fill="x")
 
 
@@ -32,6 +33,7 @@ exit_button = Button(
 
 exit_button.pack(anchor="e", pady=5, padx=10)
 
+# This is going to be the main app frame
 
 app_frame = LabelFrame(root)
 app_frame.pack(expand=True, fill="both")
@@ -46,6 +48,7 @@ reddit_stocks = GetInfo("https://tradestie.com/api/v1/apps/reddit")
 
 
 def start_button():
+
     remove_items(app_frame)
 
     try:
@@ -56,8 +59,9 @@ def start_button():
 
         displayer = Display(app_frame, reddit_stocks.information)
         displayer.get_next_result()
+
     except Exception:
-        error_label = error_page.show_error(root, reddit_stocks.info_as_text())
+        error_label = error_page.show_error(app_frame, reddit_stocks.info_as_text())
         error_label.pack()
 
 
