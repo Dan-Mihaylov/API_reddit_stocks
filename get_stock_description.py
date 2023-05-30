@@ -25,18 +25,18 @@ from tkinter import Tk, Label
 # Getting the image object and displaying it here works, but not in display_results line 46, 55, 83
 # I get, just the black background and the dimensions without the actual image.
 
-def the_gui():
-    # 128 128 width height
-
-    root = Tk()
-    img = get_company_image("NVDA")
-    a, b = img.width(), img.height()
-    print(a, b)
-    label = Label(root, image=img, bg="black")
-    label.pack()
-
-    root.mainloop()
-
-
-the_gui()
+# def the_gui():
+#     # 128 128 width height
+#
+#     root = Tk()
+#     img = get_company_image("NVDA")
+#     a, b = img.width(), img.height()
+#     print(a, b)
+#     label = Label(root, image=img, bg="black")
+#     label.pack()
+#
+#     root.mainloop()
+#
+#
+# the_gui()
 
