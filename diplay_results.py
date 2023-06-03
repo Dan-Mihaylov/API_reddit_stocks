@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import LabelFrame, Label, Button
 from collections import deque
 import webbrowser
 from clear_screen import remove_items
@@ -51,7 +51,7 @@ class Display:
             font="Helvetica, 18",
             fg="black"
         )
-
+        # The image label
         company_image = Label(
             self.frame,
             image=company_img,
@@ -80,7 +80,7 @@ class Display:
         )
 
         header_label.pack(pady=10)
-        company_image.pack(pady=10)
+        company_image.pack(pady=10)    # The image pack()
         ticker_label.pack(pady=10)
         sentiment_label.pack(pady=10)
         comments.pack(pady=10)
@@ -109,8 +109,7 @@ class Display:
                 text="Previous",
                 command=self.get_previous_result,
                 width=20,
-                borderwidth=1,
-                relief="flat",
+                borderwidth=0,
             )
 
             next_button.grid(column=2, row=0, sticky="e", padx=10)
@@ -125,18 +124,14 @@ class Display:
             self.frame,
             text="Check Company",
             command=self.go_to_webpage,
+            borderwidth=0
         )
 
         company_info_btn.pack()
-
 
     def go_to_webpage(self):
         ticker = self.curr_result["ticker"]
         url = f"https://finance.yahoo.com/quote/{ticker}?p={ticker}&.tsrc=fin-srch"
         webbrowser.open(url)
-
-
-
-
 
 

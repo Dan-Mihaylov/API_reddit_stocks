@@ -1,10 +1,9 @@
-import error_page
+import helpers
 from get_reddit_stocks import GetInfo
 from tkinter import *
 from click_and_drag import Drag
 from diplay_results import Display
 from clear_screen import remove_items
-
 
 
 root = Tk()
@@ -26,7 +25,7 @@ exit_button = Button(
     fg="grey",
     activebackground="red",
     borderwidth=0,
-    command=root.destroy,
+    command=lambda: helpers.clear_temp_close_program(f"temp", root),    # Clears the temp folder and closes the window
     width=4,
     height=2,
 )
@@ -35,7 +34,7 @@ exit_button.pack(anchor="e", pady=5, padx=10)
 
 # This is going to be the main app frame
 
-app_frame = LabelFrame(root)
+app_frame = LabelFrame(root, borderwidth=0)
 app_frame.pack(expand=True, fill="both")
 
 # Create a dragging option when click and drag on the top frame
@@ -44,7 +43,7 @@ set_drag = Drag(root, windows_buttons_frame)
 
 # Connect to the API and store the info in a JSON dict.
 
-reddit_stocks = GetInfo("https://tradestie.com/api/v1/apps/reddit")
+reddit_stocks = GetInfo( 'https://tradestie.com/api/v1/apps/reddit?date=2023-04-03')
 
 
 def start_button():
@@ -61,7 +60,7 @@ def start_button():
         displayer.get_next_result()
 
     except Exception:
-        error_label = error_page.show_error(app_frame, reddit_stocks.info_as_text())
+        error_label = helpers.show_error(app_frame, reddit_stocks.info_as_text())
         error_label.pack()
 
 
