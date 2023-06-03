@@ -27,6 +27,10 @@ def get_company_image(ticker: str):
         saved_img = Image.open(f"temp/{ticker}.png")
         saved_img_open = ImageTk.PhotoImage(saved_img)
 
+    # keep a reference of the image object
+
+    saved_img_open.image = saved_img_open
+
     return saved_img_open
 
 
@@ -52,4 +56,3 @@ def get_company_image(ticker: str):
 #
 #
 # the_gui()
-

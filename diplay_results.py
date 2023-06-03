@@ -7,7 +7,7 @@ from get_stock_description import get_company_image
 
 class Display:
 
-    def __init__(self, frame: LabelFrame, results: list):
+    def __init__(self, frame, results: list):
         self.frame = frame
         self.results = results
         self.first_item = self.results[0]
@@ -55,7 +55,6 @@ class Display:
         company_image = Label(
             self.frame,
             image=company_img,
-            bg="black"
         )
 
         ticker_label = Label(
