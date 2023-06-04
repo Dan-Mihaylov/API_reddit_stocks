@@ -1,6 +1,7 @@
 from PIL import ImageTk, Image
 import requests
 from io import BytesIO
+from helpers import MY_KEY
 
 
 def get_company_image(ticker: str):
@@ -34,25 +35,12 @@ def get_company_image(ticker: str):
     return saved_img_open
 
 
-# Bellow is testing code only.
+def get_company_profile(ticker: str, key=MY_KEY):
 
-# from tkinter import Tk, Label
+    url = f"https://financialmodelingprep.com/api/v3/profile/{ticker}?apikey={key}"
+    response = requests.get(url)
+    return response.json()
 
 
-# Getting the image object and displaying it here works, but not in display_results line 46, 55, 83
-# I get, just the black background and the dimensions without the actual image.
+print(get_company_profile("NVDA"))
 
-# def the_gui():
-#     # 128 128 width height
-#
-#     root = Tk()
-#     img = get_company_image("NVDA")
-#     a, b = img.width(), img.height()
-#     print(a, b)
-#     label = Label(root, image=img, bg="black")
-#     label.pack()
-#
-#     root.mainloop()
-#
-#
-# the_gui()

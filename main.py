@@ -4,10 +4,11 @@ from tkinter import *
 from click_and_drag import Drag
 from diplay_results import Display
 from clear_screen import remove_items
+import json
 
 
 root = Tk()
-root.geometry("400x600+200+200")
+root.geometry("600x800+200+200")
 root.overrideredirect(True)
 
 # a frame with the X exit button
@@ -52,16 +53,19 @@ def start_button():
 
     try:
         reddit_stocks.retrieve_info_as_json()
-        print(reddit_stocks.get_info())
 
         # Display the result into the app_frame
-
         displayer = Display(app_frame, reddit_stocks.information)
         displayer.get_next_result()
 
-    except Exception:
+        helpers.update_json(reddit_stocks.information)
+
+    except json.JSONDecodeError:
         error_label = helpers.show_error(app_frame, reddit_stocks.info_as_text())
         error_label.pack()
+        the_data = helpers.load_json()
+        displayer = Display(app_frame, the_data)
+        displayer.get_next_result()
 
 
 start_button = Button(app_frame, text="Start", command=start_button)
