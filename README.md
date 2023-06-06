@@ -32,3 +32,5 @@
 - [ ] Include option to check information from previous dates
 - [ ] Maybe change the second API, because the key has only 200 request per day (can use yfinance library)
 
+### Link to demo [link](https://github.com/Dan-Mihaylov/API_reddit_stocks/raw/main/demo/demo.rar) 
+Clicking on the link will download the .rar file
