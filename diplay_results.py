@@ -4,6 +4,8 @@ import webbrowser
 from clear_screen import remove_items
 from get_stock_description import get_company_image, get_company_profile
 import json
+from helpers import bg_color, fg_color
+from tkinter import ttk
 
 
 class Display:
@@ -40,7 +42,7 @@ class Display:
 
         remove_items(self.frame)    # Clear everything that is in the frame, so you can build all over
 
-        mid_frame = LabelFrame(self.frame, borderwidth=0)
+        mid_frame = LabelFrame(self.frame, borderwidth=0, bg="#1d2129")
         mid_frame.columnconfigure(1, weight=2)
         mid_frame.columnconfigure(2, weight=2)
         mid_frame.columnconfigure(3, weight=2)
@@ -55,12 +57,14 @@ class Display:
             self.frame,
             text="WSB Daily Most Popular Tickers",
             font="Helvetica, 18",
-            fg="black"
+            fg=fg_color,
+            bg=bg_color,
         )
 
         company_image = Label(
             self.frame,
             image=company_img,
+            bg=bg_color
         )
 
         ticker_label = Label(
@@ -69,20 +73,23 @@ class Display:
             font="Helvetica, 20",
             fg="Green",
             justify="center",
+            bg=bg_color
         )
 
         sentiment_label = Label(
             mid_frame,
             text=f"Sentiment: {curr_sentiment}",
             font="Helvetica, 16",
-            fg="grey"
+            fg="grey",
+            bg=bg_color
         )
 
         comments = Label(
             mid_frame,
             text=f"Total Comments: {curr_no_of_comments}",
             font="Helvetica, 16",
-            fg="grey"
+            fg="grey",
+            bg=bg_color
         )
 
         # That is the left half of the grid filled with company info
@@ -109,19 +116,22 @@ class Display:
                 mid_frame,
                 text=f"Price: {company_price}",
                 font="Helvetica, 16",
-                fg="grey"
+                fg="grey",
+                bg=bg_color
             )
             market_cap_label = Label(
                 mid_frame,
                 text=f"Market Cap: {company_market_cap}",
                 font="Helvetica, 16",
-                fg="grey"
+                fg="grey",
+                bg=bg_color
             )
             ranges_label = Label(
                 mid_frame,
                 text=f"52 Week Range: {company_range}",
                 font="Helvetica, 16",
-                fg="grey"
+                fg="grey",
+                bg=bg_color
             )
 
             price_label.grid(row=1, column=3, sticky="w")
@@ -130,15 +140,18 @@ class Display:
 
             company_description_frame = LabelFrame(
                 self.frame,
-                borderwidth=0
+                borderwidth=0,
+                bg=bg_color
             )
             company_description_frame.pack(
-                pady=10,
+                pady=50,
                 expand=True,
                 fill="both")
 
             info_canvas = Canvas(
                 company_description_frame,
+                borderwidth=0,
+                bg=bg_color
             )
 
             info_canvas.pack(
@@ -151,16 +164,38 @@ class Display:
                 company_description_frame,
                 orient="vertical",
                 command=info_canvas.yview,
+                width=2,
+                background=bg_color,
+                troughcolor=bg_color
             )
+            scrollbar.configure(relief="flat", troughcolor=bg_color, activebackground=bg_color)
             scrollbar.pack(
                 side="right",
-                fill="y"
+                fill="y",
+                padx=5
             )
-            info_canvas.configure(yscrollcommand=scrollbar.set)
+            info_canvas.configure(yscrollcommand=scrollbar.set, highlightthickness=0)
 
-            content_frame = LabelFrame(info_canvas)
-            info_canvas.create_window((20, 0), window=content_frame, anchor="nw")
-            company_description_label = Label(content_frame, text=description, wraplength=550, justify="center")
+            content_frame = LabelFrame(
+                info_canvas,
+                borderwidth=0,
+                bg=bg_color
+            )
+
+            info_canvas.create_window(
+                (20, 0),
+                window=content_frame,
+                anchor="nw",
+            )
+            company_description_label = Label(
+                content_frame,
+                text=description,
+                font="helvetica, 10",
+                wraplength=550,
+                justify="left",
+                bg=bg_color,
+                fg=fg_color
+            )
             company_description_label.pack(fill="both", expand=True)
 
         except json.JSONDecodeError and IndexError and TypeError as e:
@@ -168,7 +203,8 @@ class Display:
             error_label = Label(
                 self.frame,
                 text=f"Error Decoding Json\n{e}\nLimit Reached.More details at https://site.financialmodelingprep.com/",
-                font="helvetica")
+                font="helvetica",
+                bg=bg_color)
 
             error_label.pack()
 
@@ -176,7 +212,7 @@ class Display:
 
     def navigation_buttons(self):
 
-        button_frame = LabelFrame(self.frame, borderwidth=0)
+        button_frame = LabelFrame(self.frame, borderwidth=0, bg=bg_color)
         button_frame.columnconfigure(1, weight=3)
         button_frame.columnconfigure(2, weight=3)
         button_frame.columnconfigure(3, weight=3)
@@ -186,7 +222,11 @@ class Display:
             text="Next",
             command=self.get_next_result,
             width=20,
-            borderwidth=0
+            borderwidth=0,
+            bg=bg_color,
+            fg=fg_color,
+            activebackground="#20242d",
+            activeforeground=fg_color
         )
         previous_button = Button(
             button_frame,
@@ -194,12 +234,20 @@ class Display:
             command=self.get_previous_result,
             width=20,
             borderwidth=0,
+            bg=bg_color,
+            fg=fg_color,
+            activebackground="#20242d",
+            activeforeground=fg_color
         )
         company_info_btn = Button(
             button_frame,
             text="Check Company",
             command=self.go_to_webpage,
-            borderwidth=0
+            borderwidth=0,
+            bg=bg_color,
+            fg=fg_color,
+            activebackground="#20242d",
+            activeforeground=fg_color
         )
 
         next_button.grid(column=3, row=0, sticky="e", padx=10)
@@ -212,6 +260,7 @@ class Display:
         button_frame.pack(fill="both", pady=20)
         # TODO! Create a json dumps every time i see a company, and when clicking previous check the dumps first for
         # TODO! the info, so i save resources on requests. API KEY ==  200 PER DAY
+
     def go_to_webpage(self):
         ticker = self.curr_result["ticker"]
         url = f"https://finance.yahoo.com/quote/{ticker}?p={ticker}&.tsrc=fin-srch"

@@ -16,9 +16,6 @@ def clear_temp_close_program(folder: str, root: Tk):
     root.destroy()
 
 
-MY_KEY = "f8914e2e95915c184becb76c2ead4546"
-
-
 def update_json(some_json: list):
 
     dump_data = json.dumps(some_json)
@@ -35,3 +32,8 @@ def load_json():
     the_json_data = json.loads(file_data)
 
     return the_json_data
+
+
+MY_KEY = "f8914e2e95915c184becb76c2ead4546"
+bg_color = "#1d2129"
+fg_color = "#cccccc"

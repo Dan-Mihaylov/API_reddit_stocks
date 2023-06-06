@@ -40,7 +40,3 @@ def get_company_profile(ticker: str, key=MY_KEY):
     url = f"https://financialmodelingprep.com/api/v3/profile/{ticker}?apikey={key}"
     response = requests.get(url)
     return response.json()
-
-
-print(get_company_profile("NVDA"))
-
