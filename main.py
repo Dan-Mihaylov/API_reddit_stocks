@@ -46,7 +46,7 @@ set_drag = Drag(root, windows_buttons_frame)
 
 # Connect to the API and store the info in a JSON dict.
 
-reddit_stocks = GetInfo( 'https://tradestie.com/api/v1/apps/reddit?date=2023-04-03')
+reddit_stocks = GetInfo( 'https://tradestie.com/api/v1/apps/reddit')
 
 
 def main_page():
